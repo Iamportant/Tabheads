@@ -1,0 +1,7 @@
+name: Tabheads
+version: '${project.version}'
+main: xyz.destiall.tabheads.bungee.TabheadsBungee
+author: destiall
+description: Tab heads
+softdepends:
+  - AuthMeBungee

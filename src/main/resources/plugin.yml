@@ -1,0 +1,19 @@
+name: Tabheads
+version: '${project.version}'
+main: xyz.destiall.tabheads.bukkit.TabheadsBukkit
+author: destiall
+description: Tab heads
+api-version: 1.13
+depend:
+  - ProtocolLib
+softdepend:
+  - AuthMeReloaded
+commands:
+  premium:
+    description: Enable premium
+    aliases: [ legit ]
+  unpremium:
+    description: Disable premium
+    aliases: [ cracked ]
+  tabheadsreload:
+    description: Reload TabHeads config

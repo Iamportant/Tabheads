@@ -1,0 +1,22 @@
+message:
+  premium-login: "&aYou have successfully logged in as a premium player!"
+  kick-premium: "&aRejoin the server within 1 minute. If you are able to join successfully, then it means you are a premium player ;D"
+  kick-unpremium: "&aRejoin the server and you are no longer premium!"
+  unconfirmed: "&cYou did not log in time! Perhaps you were trying but you kept getting kicked? Then that means you are not premium!"
+  already-premium: "&cYou are already registered as premium!"
+  not-premium: "&cYou are not premium!"
+  already-pending: "&cYou are already pending to confirm your account!"
+  name-not-registered: "&cThis name is not registered to a premium account!"
+  server-overloaded: "&cThe server is being overloaded! Please wait a while to authenticate!"
+
+# BEWARE! Premium players can change their account to a cracked player's name and MAY auto-login! MAY also break some stuff!
+auth-hooks:
+  authme: true
+
+settings:
+  # BEWARE! A cracked player using a premium account's name will not be allowed in!
+  auto-premium: true
+
+  # MAY fix the name change problem with auto-login!
+  auto-name-change: false
+  debug: false

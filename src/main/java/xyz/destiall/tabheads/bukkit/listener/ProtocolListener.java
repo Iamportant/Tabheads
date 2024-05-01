@@ -9,7 +9,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import xyz.destiall.tabheads.bukkit.TabheadsBukkit;
-import xyz.destiall.tabheads.bukkit.auth.ClientPublicKey;
 import xyz.destiall.tabheads.bukkit.tasks.NameCheckTask;
 import xyz.destiall.tabheads.bukkit.tasks.VerifyResponseTask;
 import xyz.destiall.tabheads.core.EncryptionUtil;
@@ -46,7 +45,9 @@ public class ProtocolListener extends PacketAdapter {
 
     @Override
     public void onPacketReceiving(PacketEvent event) {
-        if (isOurPacket(event)) return;
+        if (isOurPacket(event))
+            return;
+
         Player sender = event.getPlayer();
         PacketType packetType = event.getPacketType();
         if (packetType == START) {
@@ -54,7 +55,7 @@ public class ProtocolListener extends PacketAdapter {
                 plugin.getLogger().warning("Anti-Bot join limit - Ignoring " + sender.getName());
                 return;
             }
-            if (MinecraftVersion.atOrAbove(V1_19)) {
+            if (MinecraftVersion.getCurrentVersion().isAtLeast(V1_19)) {
                 onLogin1_19(event, sender);
             } else {
                 onLogin(event, sender);
@@ -79,7 +80,7 @@ public class ProtocolListener extends PacketAdapter {
         byte[] sharedSecret = packetEvent.getPacket().getByteArrays().read(0);
         String sessionKey = sender.getAddress().toString();
         if (Tabheads.get().getTabConfig().isSettingEnabled("debug")) {
-            Tabheads.get().getLogger().info(sessionKey + " with " + sender.getName() + " encrypting");
+            Tabheads.get().getTabLogger().info(sessionKey + " with " + sender.getName() + " encrypting");
         }
         packetEvent.getAsyncMarker().incrementProcessingDelay();
         Runnable verifyTask = new VerifyResponseTask(TabheadsBukkit.INSTANCE, packetEvent, sender, sender.getName(), sharedSecret, keyPair);
@@ -91,7 +92,7 @@ public class ProtocolListener extends PacketAdapter {
         TabheadsBukkit.INSTANCE.removeSession(player.getAddress());
         String username = packetEvent.getPacket().getStrings().read(0);
         if (Tabheads.get().getTabConfig().isSettingEnabled("debug")) {
-            Tabheads.get().getLogger().info(sessionKey + " with " + username + " connecting");
+            Tabheads.get().getTabLogger().info(sessionKey + " with " + username + " connecting");
         }
         packetEvent.getAsyncMarker().incrementProcessingDelay();
         Runnable nameCheckTask = new NameCheckTask(random, player, packetEvent, username, keyPair.getPublic());
@@ -104,7 +105,7 @@ public class ProtocolListener extends PacketAdapter {
         PacketContainer packet = packetEvent.getPacket();
         String username = packet.getGameProfiles().read(0).getName();
         if (Tabheads.get().getTabConfig().isSettingEnabled("debug")) {
-            Tabheads.get().getLogger().info(sessionKey + " with " + username + " connecting");
+            Tabheads.get().getTabLogger().info(sessionKey + " with " + username + " connecting");
         }
         packetEvent.getAsyncMarker().incrementProcessingDelay();
         Runnable nameCheckTask = new NameCheckTask(random, player, packetEvent, username, keyPair.getPublic());

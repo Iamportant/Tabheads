@@ -16,7 +16,7 @@ import net.md_5.bungee.connection.InitialHandler;
 import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.event.EventPriority;
 import xyz.destiall.tabheads.bungee.TabheadsBungee;
-import xyz.destiall.tabheads.bungee.task.AsyncPremiumCheck;
+import xyz.destiall.tabheads.bungee.task.BungeeAsyncPremiumCheck;
 import xyz.destiall.tabheads.core.PremiumManager;
 import xyz.destiall.tabheads.core.RateLimiter;
 import xyz.destiall.tabheads.core.Tabheads;
@@ -28,7 +28,7 @@ import java.lang.reflect.Field;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-public class ConnectListener implements Listener {
+public class BungeeConnectListener implements Listener {
     private static final String UUID_FIELD_NAME = "uniqueId";
     private static final MethodHandle uniqueIdSetter;
     private final RateLimiter rateLimiter;
@@ -63,7 +63,7 @@ public class ConnectListener implements Listener {
         }
 
     }
-    public ConnectListener() {
+    public BungeeConnectListener() {
         this.rateLimiter = Tabheads.RATE_LIMITER;
     }
 
@@ -74,12 +74,12 @@ public class ConnectListener implements Listener {
             return;
         }
         if (!rateLimiter.tryAcquire()) {
-            Tabheads.get().getLogger().warning("Anti-Bot join limit - Ignoring " + connection);
+            Tabheads.get().getTabLogger().warning("Anti-Bot join limit - Ignoring " + connection);
             return;
         }
         String username = connection.getName();
         preLoginEvent.registerIntent(TabheadsBungee.INSTANCE);
-        Runnable asyncPremiumCheck = new AsyncPremiumCheck(preLoginEvent, connection, username);
+        Runnable asyncPremiumCheck = new BungeeAsyncPremiumCheck(preLoginEvent, connection, username);
         ProxyServer.getInstance().getScheduler().runAsync(TabheadsBungee.INSTANCE, asyncPremiumCheck);
     }
 
@@ -103,7 +103,7 @@ public class ConnectListener implements Listener {
         try {
             uniqueIdSetter.invokeExact(connection, offline);
             if (Tabheads.get().getTabConfig().isSettingEnabled("debug")) {
-                Tabheads.get().getLogger().info("Setting uuid of player " + connection.getName() + " to " + offline);
+                Tabheads.get().getTabLogger().info("Setting uuid of player " + connection.getName() + " to " + offline);
             }
         } catch (Throwable ex) {
             ex.printStackTrace();

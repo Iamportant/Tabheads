@@ -15,7 +15,7 @@ public class PremiumManagerBukkit extends PremiumManager {
                 removePending(name);
                 addUnconfirmed(name);
                 if (Tabheads.get().getTabConfig().isSettingEnabled("debug")) {
-                    Tabheads.get().getLogger().info("Cancelled premium session of " + name);
+                    Tabheads.get().getTabLogger().info("Cancelled premium session of " + name);
                 }
             }
         }, 20 * 60L);

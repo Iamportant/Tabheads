@@ -49,7 +49,7 @@ public class ConnectListener implements Listener {
     private void login(Player player) {
         Bukkit.getScheduler().runTaskLater(TabheadsBukkit.INSTANCE, () -> {
             if (Tabheads.get().getTabConfig().isSettingEnabled("debug")) {
-                Tabheads.get().getLogger().info("Logging " + player.getName() + " as premium");
+                Tabheads.get().getTabLogger().info("Logging " + player.getName() + " as premium");
             }
             player.sendMessage(Tabheads.get().getTabConfig().getMessage("premium-login", "&aYou have successfully logged in as a premium player!"));
             ByteArrayDataOutput out = ByteStreams.newDataOutput();
@@ -57,7 +57,7 @@ public class ConnectListener implements Listener {
             player.sendPluginMessage(TabheadsBukkit.INSTANCE, "tabheads:premium", out.toByteArray());
             if (Tabheads.get().getTabConfig().isAuthEnabled("authme")) {
                 if (Tabheads.get().getTabConfig().isSettingEnabled("debug")) {
-                    Tabheads.get().getLogger().info("Sending AuthMe login message for " + player.getName());
+                    Tabheads.get().getTabLogger().info("Sending AuthMe login message for " + player.getName());
                 }
                 out = ByteStreams.newDataOutput();
                 out.writeUTF("AuthMe.v2");

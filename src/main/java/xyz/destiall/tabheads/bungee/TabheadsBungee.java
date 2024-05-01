@@ -7,17 +7,19 @@ import com.google.common.cache.LoadingCache;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.PendingConnection;
 import net.md_5.bungee.api.plugin.Plugin;
+import xyz.destiall.tabheads.JavaLogger;
 import xyz.destiall.tabheads.bungee.auth.AuthMeBungeeHook;
 import xyz.destiall.tabheads.bungee.commands.Premium;
 import xyz.destiall.tabheads.bungee.commands.Reload;
 import xyz.destiall.tabheads.bungee.commands.Unpremium;
 import xyz.destiall.tabheads.bungee.flatfile.PremiumManagerBungee;
 import xyz.destiall.tabheads.bungee.flatfile.TabConfigBungee;
-import xyz.destiall.tabheads.bungee.listener.ConnectListener;
+import xyz.destiall.tabheads.bungee.listener.BungeeConnectListener;
 import xyz.destiall.tabheads.bungee.session.BungeeLoginSession;
 import xyz.destiall.tabheads.core.LoginSession;
 import xyz.destiall.tabheads.core.PremiumManager;
 import xyz.destiall.tabheads.core.TabConfig;
+import xyz.destiall.tabheads.core.TabLogger;
 import xyz.destiall.tabheads.core.Tabheads;
 
 import java.util.concurrent.ConcurrentMap;
@@ -29,6 +31,7 @@ public final class TabheadsBungee extends Plugin implements Tabheads<PendingConn
     private LoadingCache<PendingConnection, BungeeLoginSession> loginSession;
     private PremiumManager premiumManager;
     private TabConfig config;
+    private TabLogger logger;
     public boolean AMB;
 
     @Override
@@ -47,11 +50,12 @@ public final class TabheadsBungee extends Plugin implements Tabheads<PendingConn
             ex.printStackTrace();
         }
         premiumManager = new PremiumManagerBungee();
+        logger = new JavaLogger(getLogger());
     }
 
     @Override
     public void onEnable() {
-        getProxy().getPluginManager().registerListener(this, new ConnectListener());
+        getProxy().getPluginManager().registerListener(this, new BungeeConnectListener());
         getProxy().getPluginManager().registerCommand(this, new Premium());
         getProxy().getPluginManager().registerCommand(this, new Unpremium());
         getProxy().getPluginManager().registerCommand(this, new Reload());
@@ -73,7 +77,7 @@ public final class TabheadsBungee extends Plugin implements Tabheads<PendingConn
 
     @Override
     public String getSessionId(PendingConnection key) {
-        return key.getAddress().getAddress().getHostAddress()+":"+key.getName();
+        return key.getAddress().getAddress().getHostAddress() + ":" + key.getName();
     }
 
     @Override
@@ -96,6 +100,11 @@ public final class TabheadsBungee extends Plugin implements Tabheads<PendingConn
     @Override
     public ConcurrentMap<String, Object> getPendingLogin() {
         return null;
+    }
+
+    @Override
+    public TabLogger getTabLogger() {
+        return logger;
     }
 
     @Override

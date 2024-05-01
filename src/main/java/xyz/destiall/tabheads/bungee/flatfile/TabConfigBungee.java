@@ -9,14 +9,13 @@ import xyz.destiall.tabheads.core.TabConfig;
 import xyz.destiall.tabheads.core.Tabheads;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 
 public class TabConfigBungee extends TabConfig {
     private Configuration config;
-    public TabConfigBungee(File dataFolder) throws IOException {
+    public TabConfigBungee(File dataFolder) {
         super(dataFolder);
         reload();
         update();
@@ -27,7 +26,7 @@ public class TabConfigBungee extends TabConfig {
         try {
             config = YamlConfiguration.getProvider(YamlConfiguration.class).load(configFile);
         } catch (Exception e) {
-            Tabheads.get().getLogger().warning("Unable to load config.yml");
+            Tabheads.get().getTabLogger().warning("Unable to load config.yml");
             e.printStackTrace();
         }
     }
@@ -35,10 +34,10 @@ public class TabConfigBungee extends TabConfig {
     @Override
     public void save() {
         try (InputStream input = TabheadsBungee.INSTANCE.getResourceAsStream("config.yml");
-            OutputStream output = new FileOutputStream(configFile)) {
+            OutputStream output = Files.newOutputStream(configFile.toPath())) {
             ByteStreams.copy(input, output);
         } catch (Exception e) {
-            Tabheads.get().getLogger().warning("Unable to save config.yml");
+            Tabheads.get().getTabLogger().warning("Unable to save config.yml");
             e.printStackTrace();
         }
     }
@@ -54,7 +53,7 @@ public class TabConfigBungee extends TabConfig {
             try {
                 YamlConfiguration.getProvider(YamlConfiguration.class).save(config, configFile);
             } catch (Exception e) {
-                Tabheads.get().getLogger().warning("Unable to update config.yml");
+                Tabheads.get().getTabLogger().warning("Unable to update config.yml");
                 e.printStackTrace();
             }
         }

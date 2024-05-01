@@ -13,9 +13,11 @@ import xyz.destiall.tabheads.bukkit.listener.ConnectListener;
 import xyz.destiall.tabheads.bukkit.listener.ProtocolListener;
 import xyz.destiall.tabheads.bukkit.session.BukkitLoginSession;
 import xyz.destiall.tabheads.bukkit.utils.CommonUtil;
+import xyz.destiall.tabheads.JavaLogger;
 import xyz.destiall.tabheads.core.LoginSession;
 import xyz.destiall.tabheads.core.PremiumManager;
 import xyz.destiall.tabheads.core.TabConfig;
+import xyz.destiall.tabheads.core.TabLogger;
 import xyz.destiall.tabheads.core.Tabheads;
 
 import java.net.InetSocketAddress;
@@ -29,6 +31,7 @@ public final class TabheadsBukkit extends JavaPlugin implements Tabheads<InetSoc
     private MojangResolver resolver;
     private PremiumManager premiumManager;
     private TabConfig config;
+    private TabLogger logger;
 
     @Override
     public void onLoad() {
@@ -43,6 +46,7 @@ public final class TabheadsBukkit extends JavaPlugin implements Tabheads<InetSoc
             getLogger().severe("Unable to load configuration");
         }
         premiumManager = new PremiumManagerBukkit();
+        logger = new JavaLogger(getLogger());
     }
 
     @Override
@@ -122,6 +126,11 @@ public final class TabheadsBukkit extends JavaPlugin implements Tabheads<InetSoc
     @Override
     public ConcurrentMap<String, Object> getPendingLogin() {
         return pendingLogin;
+    }
+
+    @Override
+    public TabLogger getTabLogger() {
+        return null;
     }
 
     @Override

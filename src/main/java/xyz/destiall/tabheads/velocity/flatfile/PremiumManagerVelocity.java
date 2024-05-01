@@ -1,18 +1,22 @@
-package xyz.destiall.tabheads.bungee.flatfile;
+package xyz.destiall.tabheads.velocity.flatfile;
 
-import net.md_5.bungee.api.ProxyServer;
-import xyz.destiall.tabheads.bungee.TabheadsBungee;
 import xyz.destiall.tabheads.core.PremiumManager;
 import xyz.destiall.tabheads.core.Tabheads;
+import xyz.destiall.tabheads.velocity.TabheadsVelocity;
 
 import java.util.concurrent.TimeUnit;
 
-public class PremiumManagerBungee extends PremiumManager {
+public class PremiumManagerVelocity extends PremiumManager {
+    private final TabheadsVelocity plugin;
+
+    public PremiumManagerVelocity(TabheadsVelocity plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public void addPending(String name) {
         pendingConfirms.add(name);
-        ProxyServer.getInstance().getScheduler().schedule(TabheadsBungee.INSTANCE, () -> {
+        plugin.getServer().getScheduler().buildTask(plugin, () -> {
             if (isPending(name)) {
                 removePending(name);
                 addUnconfirmed(name);
@@ -20,6 +24,6 @@ public class PremiumManagerBungee extends PremiumManager {
                     Tabheads.get().getTabLogger().info("Cancelled premium session of " + name);
                 }
             }
-        }, 1L, TimeUnit.MINUTES);
+        }).delay(1L, TimeUnit.MINUTES).schedule();
     }
 }

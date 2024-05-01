@@ -15,7 +15,7 @@ auth-hooks:
 
 settings:
   # BEWARE! A cracked player using a premium account's name will not be allowed in!
-  auto-premium: true
+  auto-premium: false
 
   # MAY fix the name change problem with auto-login!
   auto-name-change: false

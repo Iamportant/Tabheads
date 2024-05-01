@@ -114,7 +114,7 @@ public class VerifyResponseTask implements Runnable {
             if (response.isPresent()) {
                 Verification verification = response.get();
                 if (Tabheads.get().getTabConfig().isSettingEnabled("debug")) {
-                    Tabheads.get().getLogger().info(requestedUsername + " has a verified premium account");
+                    Tabheads.get().getTabLogger().info(requestedUsername + " has a verified premium account");
                 }
                 String realUsername = verification.getName();
                 if (realUsername == null) {
@@ -132,7 +132,7 @@ public class VerifyResponseTask implements Runnable {
 
     private boolean checkVerifyToken(BukkitLoginSession session) throws GeneralSecurityException {
         byte[] requestVerify = session.getVerifyToken();
-        byte[] responseVerify = packetEvent.getPacket().getByteArrays().read(MinecraftVersion.atOrAbove(V1_19) ? 0 : 1);
+        byte[] responseVerify = packetEvent.getPacket().getByteArrays().read(MinecraftVersion.getCurrentVersion().isAtLeast(V1_19) ? 0 : 1);
         if (!Arrays.equals(requestVerify, EncryptionUtil.decrypt(serverKey.getPrivate(), responseVerify))) {
             disconnect(session.getRequestUsername() + " (" + address + ") tried to login with an invalid verify token [" + Arrays.toString(requestVerify) + "/" + Arrays.toString(responseVerify) + "]");
             return false;
@@ -151,7 +151,7 @@ public class VerifyResponseTask implements Runnable {
 
     private boolean enableEncryption(SecretKey loginKey) throws IllegalArgumentException {
         if (Tabheads.get().getTabConfig().isSettingEnabled("debug")) {
-            Tabheads.get().getLogger().info("Enabling encryption for " + username);
+            Tabheads.get().getTabLogger().info("Enabling encryption for " + username);
         }
         if (encryptMethod == null) {
             Class<?> networkManagerClass = MinecraftReflection.getNetworkManagerClass();
@@ -195,7 +195,7 @@ public class VerifyResponseTask implements Runnable {
 
     private void disconnect(String logMessage, Exception... ex) {
         if (Tabheads.get().getTabConfig().isSettingEnabled("debug")) {
-            Tabheads.get().getLogger().warning(logMessage);
+            Tabheads.get().getTabLogger().warning(logMessage);
             if (ex != null && ex.length > 0) {
                 for (Exception e : ex) {
                     e.printStackTrace();
@@ -216,7 +216,7 @@ public class VerifyResponseTask implements Runnable {
         //see StartPacketListener for packet information
         PacketContainer startPacket = new PacketContainer(START);
 
-        if (MinecraftVersion.atOrAbove(new MinecraftVersion(1, 19, 0))) {
+        if (MinecraftVersion.getCurrentVersion().isAtLeast(new MinecraftVersion(1, 19, 0))) {
             startPacket.getStrings().write(0, username);
 
             EquivalentConverter<WrappedProfilePublicKey.WrappedProfileKeyData> converter = BukkitConverters.getWrappedPublicKeyDataConverter();

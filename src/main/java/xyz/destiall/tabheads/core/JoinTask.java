@@ -16,7 +16,7 @@ public abstract class JoinTask<S extends LoginSource> {
                 Optional<Profile> profile = Tabheads.get().getResolver().findProfile(username);
                 if (profile.isPresent()) {
                     if (Tabheads.get().getTabConfig().isSettingEnabled("debug")) {
-                        Tabheads.get().getLogger().info("Requesting premium login for " + username);
+                        Tabheads.get().getTabLogger().info("Requesting premium login for " + username);
                     }
                     if (prof.isPresent()) {
                         requestPremiumLogin(source, prof.get().getOfflineId(), username);
@@ -29,7 +29,7 @@ public abstract class JoinTask<S extends LoginSource> {
             if (prof.isPresent() ||
                 Tabheads.get().getPremiumManager().isPending(username)) {
                 if (Tabheads.get().getTabConfig().isSettingEnabled("debug")) {
-                    Tabheads.get().getLogger().info("Requesting premium login for " + username);
+                    Tabheads.get().getTabLogger().info("Requesting premium login for " + username);
                 }
                 requestPremiumLogin(source, prof.isPresent() ? prof.get().getOfflineId() : UUIDAdapter.generateOfflineId(username), username);
                 return;

@@ -9,12 +9,12 @@ import xyz.destiall.tabheads.core.JoinTask;
 
 import java.util.UUID;
 
-public class AsyncPremiumCheck extends JoinTask<BungeeLoginSource> implements Runnable {
+public class BungeeAsyncPremiumCheck extends JoinTask<BungeeLoginSource> implements Runnable {
     private final PreLoginEvent preLoginEvent;
     private final String username;
     private final PendingConnection connection;
 
-    public AsyncPremiumCheck(PreLoginEvent preLoginEvent, PendingConnection connection, String username) {
+    public BungeeAsyncPremiumCheck(PreLoginEvent preLoginEvent, PendingConnection connection, String username) {
         this.preLoginEvent = preLoginEvent;
         this.connection = connection;
         this.username = username;

@@ -4,7 +4,6 @@ import com.github.games647.craftapi.resolver.MojangResolver;
 
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.logging.Logger;
 
 public interface Tabheads<K> {
     AtomicReference<Tabheads<?>> INSTANCE = new AtomicReference<>();
@@ -24,7 +23,7 @@ public interface Tabheads<K> {
     void putSession(K key, LoginSession session);
     void removeSession(K key);
     ConcurrentMap<String, Object> getPendingLogin();
-    Logger getLogger();
+    TabLogger getTabLogger();
     String getPluginPath();
     PremiumManager getPremiumManager();
     TabConfig getTabConfig();

@@ -116,28 +116,31 @@
             <version>1.0.20</version>
             <scope>provided</scope>
         </dependency>
+        <!-- 使用稳定的 spigot-api 版本 -->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.19-R0.1-SNAPSHOT</version>
+            <version>1.19.3</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.comphenix.protocol</groupId>
             <artifactId>ProtocolLib</artifactId>
-            <version>5.1.0</version>
+            <version>4.7.0</version>
             <scope>provided</scope>
         </dependency>
+        <!-- 使用稳定的 bungeecord-proxy 版本 -->
         <dependency>
             <groupId>net.md-5</groupId>
             <artifactId>bungeecord-proxy</artifactId>
-            <version>1.16-R0.5-SNAPSHOT</version>
+            <version>1.16.5</version>
             <scope>provided</scope>
         </dependency>
+        <!-- 使用稳定的 velocity-api 版本 -->
         <dependency>
             <groupId>com.velocitypowered</groupId>
             <artifactId>velocity-api</artifactId>
-            <version>3.4.0-SNAPSHOT</version>
+            <version>3.3.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.games647</groupId>
@@ -149,10 +152,11 @@
             <artifactId>HikariCP</artifactId>
             <version>4.0.3</version>
         </dependency>
+        <!-- 使用稳定的 authmebungee 版本 -->
         <dependency>
             <groupId>fr.xephi</groupId>
             <artifactId>authmebungee</artifactId>
-            <version>2.2.0-SNAPSHOT</version>
+            <version>2.1.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
